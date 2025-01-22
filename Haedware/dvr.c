@@ -165,8 +165,7 @@ void window_field(Dvr_TX *dvr)
 		dvr->YAW = Filter_Yaw.sum / Filter_Number;
 		count++;
 		//ÅĞ¶ÏË÷Òı·¶Î§
-		if(count >= 8)
-		{
+		if(count >= 10)		{
 				count = 0;
 		}
 	

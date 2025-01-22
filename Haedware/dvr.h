@@ -3,7 +3,7 @@
 
 #include "sys.h"
 
-#define Filter_Number 8
+#define Filter_Number 10
 
 typedef struct{
 			u32 sum;

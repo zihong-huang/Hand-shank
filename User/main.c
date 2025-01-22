@@ -17,7 +17,7 @@
 
 //动态创建NRF_TX
 #define START_TASK_NRF_TX  2						//任务优先级
-#define START_TX_SIZE	    256				  	//堆栈大小
+#define START_TX_SIZE	    128				  	//堆栈大小
 TaskHandle_t	Task_NRF_TX_Handle;				//任务句柄
 
 //动态创建NRF_RX
@@ -28,17 +28,13 @@ TaskHandle_t	Task_NRF_RX_Handle;				//任务句柄
 
 //动态创建DVR
 #define START_TASK_DVR 		2						  //任务优先级
-#define START_DVR_SIZE		256						//堆栈大小
+#define START_DVR_SIZE		128						//堆栈大小
 TaskHandle_t	Task_DVR_Handle;					//任务句柄
 
 //动态创建KEY
 #define START_TASK_KEY 		2					  	//任务优先级
 #define START_KEY_SIZE		64						//堆栈大小
 TaskHandle_t	Task_KEY_Handle;					//任务句柄
-
-
-
-
 
 int main(void)
 {
@@ -57,7 +53,7 @@ int main(void)
 	LCD_ShowString(10, 30, 50, 10, 12, (u8*)"NRF_ER", GREEN, GRAYBLUE);
 	lcdClear(GRAYBLUE);
 
-	xQueue_Send_Data = xQueueCreate(2, sizeof(char)*13);
+	xQueue_Send_Data = xQueueCreate(3, sizeof(char)*13);
 	
 	xTaskCreate((TaskFunction_t)	Task_NRF_TX,					//创建NRF线程
 						(char *)					"Task_NRF_TX",
@@ -89,7 +85,7 @@ int main(void)
 //						(TaskHandle_t *)	&Task_KEY_Handle );	
 						
 
-	
+
 //	SemapMTX_Handle_t = xSemaphoreCreateBinary();
 //	SemapMRX_Handle_t = xSemaphoreCreateBinary();
 //	xSemaphoreGive(SemapMTX_Handle_t);

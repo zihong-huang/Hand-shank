@@ -15,13 +15,14 @@ void Task_NRF_TX(void)
 	
 		char Receive_Send_Data[13];
 		BaseType_t Send_Data;
+		TX_Mode();
 	
 		while(1)
 		{
 //				while(xSemaphoreTake(SemapMTX_Handle_t,portMAX_DELAY))
 //				{
-								TX_Mode();
-
+//								TX_Mode();
+								delay_us(50);
 								Send_Data = xQueueReceive(xQueue_Send_Data, &Receive_Send_Data, portMAX_DELAY);
 								if(Send_Data != pdPASS)
 								{
@@ -84,19 +85,20 @@ void Task_Dvr_Get_data(void)
 
 				ADC_DVR_SCAN();
 				Send_ADC_Data();
+				delay_us(5);
 //				taskENTER_CRITICAL();
 				//左上成功状态码
-//				if(Show.Succeeful_flag == 0x01){
-//						LCD_ShowString(10, 10, 20, 10,12, (u8*)"su", GREEN, GRAYBLUE);
-//				}
-//				//左下错误代码
-//			
-//				//右上dvr数据
-//				LCD_ShowIntNum(100,10, Dvr.THR, 5, GREEN,GRAYBLUE, 12);
-//				LCD_ShowIntNum(100,20, Dvr.PIT, 5, GREEN,GRAYBLUE, 12);
-//				LCD_ShowIntNum(100,30, Dvr.ROL, 5, GREEN,GRAYBLUE, 12);
-//				LCD_ShowIntNum(100,40, Dvr.YAW, 5, GREEN,GRAYBLUE, 12);
-//				
+				if(Show.Succeeful_flag == 0x01){
+						LCD_ShowString(10, 10, 20, 10,12, (u8*)"su", GREEN, GRAYBLUE);
+				}
+				//左下错误代码
+			
+				//右上dvr数据
+				LCD_ShowIntNum(100,10, Dvr.THR, 5, GREEN,GRAYBLUE, 12);
+				LCD_ShowIntNum(100,20, Dvr.PIT, 5, GREEN,GRAYBLUE, 12);
+				LCD_ShowIntNum(100,30, Dvr.ROL, 5, GREEN,GRAYBLUE, 12);
+				LCD_ShowIntNum(100,40, Dvr.YAW, 5, GREEN,GRAYBLUE, 12);
+				
 //				taskEXIT_CRITICAL();
 				vTaskDelay(pdMS_TO_TICKS(50));
 		}
@@ -109,7 +111,7 @@ void Send_ADC_Data(void)
 		char send_data[13];
 		BaseType_t status;
 		//写入传输长度
-		send_data[0] = 10;
+		send_data[0] = 12;
 		//帧头
 		send_data[1] = 0xFD;
 		send_data[2] = 0xFD;
@@ -126,7 +128,7 @@ void Send_ADC_Data(void)
 		send_data[9] = (Dvr.YAW >> 8) & 0xFF;
 		send_data[10] = Dvr.YAW & 0xFF;
 		//按键
-		if(Key_con.key1_flasg == 1)
+		if(KEY1 == 0)
 		{
 				LED_R();
 				send_data[11] = 0x06;
@@ -171,7 +173,7 @@ void KEY_Scan(void)
 	
 }
 
-	
+
 
 
 

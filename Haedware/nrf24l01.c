@@ -134,9 +134,9 @@ u8 NRF24L01_Write_Buf(u8 reg_addr, u8 *pBuf, u8 data_len)
 u8 NRF24L01_TxPacket(u8 *tx_buf)
 {
 	u8 state;   
-	CE_L;
+//	CE_L;
   	NRF24L01_Write_Buf(WR_TX_PLOAD,tx_buf,TX_PLOAD_WIDTH);//写数据到TX BUF  32个字节
- 	CE_H;                                     //启动发送	   
+// 	CE_H;                                     //启动发送	   
 	while(READ_IRQ != 0);                         //等待发送完成
 	state=NRF24L01_Read_Reg(STATUS);                     //读取状态寄存器的值	   
 	NRF24L01_Write_Reg(SPI_WRITE_REG+STATUS,state);      //清除TX_DS或MAX_RT中断标志
